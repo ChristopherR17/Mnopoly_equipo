@@ -30,4 +30,5 @@ def print_tablero():
 
 print_tablero()
 
-def jugadores(jugador,carrers,diners,especial)
+def jugadores(jugador,carrers,diners,especial):
+    pass
