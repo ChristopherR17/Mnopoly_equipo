@@ -1,3 +1,5 @@
+#MONOPOLY
+#ALUMNOS: CHRISTOPHER Y MARC
 import random
 import os
 
@@ -455,6 +457,7 @@ def siguiente_jugador():
     global turno_actual
     turno_actual += 1
     if turno_actual >= len(turno_jugadores):
+        print(turno_jugadores)
         turno_actual = 0  # Vuelve al primer jugador cuando llegues al final
     return turno_jugadores[turno_actual]
 
@@ -496,8 +499,8 @@ def menu_opcions(jugador_actual):
     opcion = input("Opcion: ").lower()
     
     if opcion == 'passar':
-        turno_actual = siguiente_jugador()
-        return turno_actual
+        siguiente_jugador = siguiente_jugador()
+        print(siguiente_jugador)
         
     elif opcion == 'comprar terreny':
         # Opción para comprar terreno
@@ -548,8 +551,7 @@ def menu_trucs():
 
 taulellDibuixar()
 
-turno_jugadores = orden_tirada()
-jugador_actual = turno_jugadores[0]
+jugador_actual = turno_jugadores[turno_actual]
 menu_opcions(jugador_actual)
 print(jugador_actual)
 
