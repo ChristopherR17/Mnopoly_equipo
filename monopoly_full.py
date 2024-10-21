@@ -303,6 +303,14 @@ def caselles_especials(jugador, jugadors):
 
     return jugadors
 
+def turno_jugador(jugador,posicio):
+    dado1, dado2 = dados()
+    if jugadors[jugador]["torns_pressó"] > 0:
+        print(f"{jugador} está en la presó y tiene que esperar {jugadors[jugador]['torns_pressó']} turnos más.")
+        jugadors[jugador]["torns_pressó"] -= 1
+    else:
+        jugadors[posicio] += dado1+dado2
+
 def propiedades():
     propiedad = {
         "Lauria": {
