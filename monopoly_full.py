@@ -303,13 +303,13 @@ def caselles_especials(jugador, jugadors):
 
     return jugadors
 
-def turno_jugador(jugador,posicio):
+def turno_jugador(jugador):
     dado1, dado2 = dados()
     if jugadors[jugador]["torns_pressó"] > 0:
         print(f"{jugador} está en la presó y tiene que esperar {jugadors[jugador]['torns_pressó']} turnos más.")
         jugadors[jugador]["torns_pressó"] -= 1
     else:
-        jugadors[posicio] += dado1+dado2
+        jugadors[jugador]["posicio"] += dado1+dado2
 
 def propiedades():
     propiedad = {
@@ -444,20 +444,60 @@ def comprar_propiedad(jugador, CMP_Trrny, propiedades):
     else:
         print(f"{propiedades[CMP_Trrny]['nombre']} ya está comprado por {propiedades[CMP_Trrny]['propietario']}.")
 
+# Lista global de jugadores en orden aleatorio
+turno_jugadores = orden_tirada()
 
-def menu_opcions(jugador_actual, orden_jugadores, indice_jugador):
+# Índice para seguir al siguiente jugador
+turno_actual = 0
+
+# Función para pasar al siguiente jugador
+def siguiente_jugador():
+    global turno_actual
+    turno_actual += 1
+    if turno_actual >= len(turno_jugadores):
+        turno_actual = 0  # Vuelve al primer jugador cuando llegues al final
+    return turno_jugadores[turno_actual]
+
+def preus():
+    # Datos de las calles
+    datos = [
+    ("Lauria", 10, 15, 50, 200, 250),
+    ("Rosselló", 10, 15, 50, 225, 255),
+    ("Marina", 15, 15, 50, 250, 260),
+    ("C. de cent", 15, 20, 50, 275, 265),
+    ("Muntaner", 20, 20, 60, 300, 270),
+    ("Aribau", 20, 20, 60, 325, 275),
+    ("Sant Joan", 25, 25, 60, 350, 280),
+    ("Aragó", 25, 25, 60, 375, 285),
+    ("Urquinaona", 30, 25, 70, 400, 290),
+    ("Fontana", 30, 30, 70, 425, 300),
+    ("Les Rambles", 35, 30, 70, 450, 310),
+    ("Pl. Catalunya", 35, 30, 70, 475, 320),
+    ("P. Àngel", 40, 35, 80, 500, 330),
+    ("Via Augusta", 40, 35, 80, 525, 340),
+    ("Balmes", 50, 40, 80, 550, 350),
+    ("Pg. de Gràcia", 50, 50, 80, 525, 360),
+    ]
+
+    # Imprimir el encabezado
+    print(f"| {'Carrer':<13} | {'Ll. Casa':<9} | {'Ll. Hotel':<10} | {'Cmp. Trrny':<11} | {'Cmp. Casa':<10} | {'Cmp. Hotel':<11} |")
+    print(f"|{'-'*15}|{'-'*11}|{'-'*12}|{'-'*13}|{'-'*12}|{'-'*13}|")
+
+    # Imprimir las filas de la tabla
+    for carrer, ll_casa, ll_hotel, cmp_trrrny, cmp_casa, cmp_hotel in datos:
+        print(f"| {carrer:<13} | {ll_casa:<9} | {ll_hotel:<10} | {cmp_trrrny:<11} | {cmp_casa:<10} | {cmp_hotel:<11} |")
+
+
+def menu_opcions(jugador_actual):
     print(f"\nTurno de {jugador_actual}")
     print("""
-Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc, preu jugador, vendre al banc, vendre a B, vendre a (T,G o V)
-""")
+    Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc, preu jugador, vendre al banc, vendre a B, vendre a (T,G o V)
+    """)
     opcion = input("Opcion: ").lower()
     
     if opcion == 'passar':
-        print(orden_jugadores)
-        indice_jugador = 1
-        indice_jugador = (indice_jugador + 1) % len(orden_jugadores)
-        siguiente_jugador = orden_jugadores[indice_jugador]
-        return siguiente_jugador, indice_jugador
+        turno_actual = siguiente_jugador()
+        return turno_actual
         
     elif opcion == 'comprar terreny':
         # Opción para comprar terreno
@@ -478,7 +518,7 @@ Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc,
     elif opcion == 'comprar hotel':
         pass
     elif opcion == 'preus':
-        pass
+        preus()
     elif opcion == 'preu banc':
         pass
     elif opcion == 'preu jugador':
@@ -495,13 +535,22 @@ Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc,
         print("Error! No existe esta opcion!")
     
 def menu_trucs():
-    pass
+    print("""
+    <============== Trucs ==============>"
+    1.Anar a 'Nom de la casella o carrer'
+    2.afegir X cases (on X és un número entre 1 i 4)
+    3.afegir X hotels (on X és 1 o bé 2)
+    4.seguent X (on X és el proper jugador a jugar, G, T, V o B)
+    5.diners X YY (on X és el jugador i YY els diners que tindrà disponibles)
+    6.diners X banca (on X són els diners que tindrà la banca)
+    """)
+
 
 taulellDibuixar()
 
-orden_jugadores = orden_tirada()
-indice_jugador = 0
-jugador_actual = orden_jugadores[indice_jugador]
-menu_opcions(jugador_actual, orden_jugadores, indice_jugador)
+turno_jugadores = orden_tirada()
+jugador_actual = turno_jugadores[0]
+menu_opcions(jugador_actual)
+print(jugador_actual)
 
 asignar_especial(jugadors)
