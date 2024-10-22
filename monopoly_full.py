@@ -463,7 +463,7 @@ def propiedades():
     
     return propiedad
 
-#Global de propiedades
+#Lista global de propiedades
 propiedad = propiedades()
 
 # Lista global de jugadores en orden aleatorio
@@ -482,7 +482,7 @@ def siguiente_jugador():
     return turno_jugadores[turno_actual]
 
 def comprar_propiedad(jugador, propiedad):
-    propiedades_dict = propiedades()  # Diccionario de propiedades disponible en el juego
+    propiedades_dict = propiedades()
     if propiedad not in propiedades_dict:
         print(f"La propiedad {propiedad} no existe.")
         return
@@ -569,7 +569,7 @@ def preus():
     ]
 
     # Imprimir el encabezado
-    print(f"| {'Carrer':<13} | {'Ll. Casa':<9} | {'Ll. Hotel':<10} | {'Cmp. Trrny':<11} | {'Cmp. Casa':<10} | {'Cmp. Hotel':<11} |")
+    print(f"\n| {'Carrer':<13} | {'Ll. Casa':<9} | {'Ll. Hotel':<10} | {'Cmp. Trrny':<11} | {'Cmp. Casa':<10} | {'Cmp. Hotel':<11} |")
     print(f"|{'-'*15}|{'-'*11}|{'-'*12}|{'-'*13}|{'-'*12}|{'-'*13}|")
 
     # Imprimir las filas de la tabla
@@ -593,7 +593,7 @@ def mostrar_valor_venta_propiedades(jugador):
     # Mostrar el resultado en el espacio de información
     print(f"{jugador} podría ganar un total de {total_valor_venta} si vende todas sus propiedades al banco.")
 
-def mostrar_valor_venta_a_jugador(jugador):
+def mostrar_valor_venta_a_jugador(jugador, propiedad):
         precio_compra = propiedades()[propiedad]["Preu"]
         valor_venta = precio_compra * 0.9
         print(f"Si vende todas sus propiedades a otro jugador, {jugador} ganará {valor_venta}.")
@@ -683,8 +683,8 @@ def menu_opcions(jugador_actual, jugador, propiedad):
     opcion = input("Opcion: ").lower()
     
     if opcion == 'passar':
-        siguiente_jugador = siguiente_jugador()
-        print(siguiente_jugador)
+        next_player = siguiente_jugador()
+        return next_player
 
     elif opcion == 'comprar terreny':
         comprar_propiedad(jugador, propiedad)
@@ -726,13 +726,25 @@ def menu_trucs(jugador):
     opcion = int(input("Elige la opcion introduciendo el numero: "))
 
     if opcion == 1:
-        jugadors[jugador]["posicio"] == 1
-
+        pass
+    elif opcion == 2:
+        pass
+    elif opcion == 3:
+        pass
+    elif opcion == 4:
+        pass
+    elif opcion == 5:
+        pass
+    elif opcion == 6:
+        pass
+    else:
+        print(f"La opcion '{opcion}' no existe!")
+ 
 
 taulellDibuixar()
 
 jugador_actual = turno_jugadores[turno_actual]
-menu_opcions(jugador_actual, jugadors, propiedad)
+jugador_actual = menu_opcions(jugador_actual, jugadors, propiedad)
 print(jugador_actual)
 
 asignar_especial(jugadors)
