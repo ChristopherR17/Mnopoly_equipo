@@ -321,7 +321,8 @@ def propiedades():
             "CMP_Trrny": 50,
             "CMP_Casa": 200,
             "CMP_Hotel": 250,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Rosselló": {
             "LL_Casa": 10,
@@ -329,7 +330,8 @@ def propiedades():
             "CMP_Trrny": 50,
             "CMP_Casa": 225,
             "CMP_Hotel": 255,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Marina": {
             "LL_Casa": 15,
@@ -337,7 +339,8 @@ def propiedades():
             "CMP_Trrny": 50,
             "CMP_Casa": 250,
             "CMP_Hotel": 260,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "C. de cent": {
             "LL_Casa": 15,
@@ -345,7 +348,8 @@ def propiedades():
             "CMP_Trrny": 50,
             "CMP_Casa": 275,
             "CMP_Hotel": 265,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Muntaner": {
             "LL_Casa": 20,
@@ -353,7 +357,8 @@ def propiedades():
             "CMP_Trrny": 60,
             "CMP_Casa": 300,
             "CMP_Hotel": 270,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Aribau": {
             "LL_Casa": 20,
@@ -361,7 +366,8 @@ def propiedades():
             "CMP_Trrny": 60,
             "CMP_Casa": 325,
             "CMP_Hotel": 275,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Sant Joan": {
             "LL_Casa": 25,
@@ -369,7 +375,8 @@ def propiedades():
             "CMP_Trrny": 60,
             "CMP_Casa": 350,
             "CMP_Hotel": 280,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Aragó": {
             "LL_Casa": 25,
@@ -377,7 +384,8 @@ def propiedades():
             "CMP_Trrny": 60,
             "CMP_Casa": 375,
             "CMP_Hotel": 285,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Urquinaona": {
             "LL_Casa": 30,
@@ -385,7 +393,8 @@ def propiedades():
             "CMP_Trrny": 70,
             "CMP_Casa": 400,
             "CMP_Hotel": 290,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Fontana": {
             "LL_Casa": 30,
@@ -393,7 +402,8 @@ def propiedades():
             "CMP_Trrny": 70,
             "CMP_Casa": 425,
             "CMP_Hotel": 300,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Les Rambles": {
             "LL_Casa": 35,
@@ -401,7 +411,8 @@ def propiedades():
             "CMP_Trrny": 70,
             "CMP_Casa": 450,
             "CMP_Hotel": 310,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Pl. Catalunya": {
             "LL_Casa": 35,
@@ -409,7 +420,8 @@ def propiedades():
             "CMP_Trrny": 70,
             "CMP_Casa": 475,
             "CMP_Hotel": 320,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "P. Àngel": {
             "LL_Casa": 40,
@@ -417,7 +429,8 @@ def propiedades():
             "CMP_Trrny": 80,
             "CMP_Casa": 500,
             "CMP_Hotel": 330,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Via Augusta": {
             "LL_Casa": 40,
@@ -425,7 +438,8 @@ def propiedades():
             "CMP_Trrny": 80,
             "CMP_Casa": 525,
             "CMP_Hotel": 340,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Balmes": {
             "LL_Casa": 50,
@@ -433,7 +447,8 @@ def propiedades():
             "CMP_Trrny": 80,
             "CMP_Casa": 550,
             "CMP_Hotel": 350,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         },
         "Pg. de Gràcia": {
             "LL_Casa": 50,
@@ -441,7 +456,8 @@ def propiedades():
             "CMP_Trrny": 80,
             "CMP_Casa": 525,
             "CMP_Hotel": 360,
-            'Num. Cases': 0
+            "Num. Cases": 0,
+            "Num. Hoteles": 0
         }
     }
     
@@ -560,6 +576,60 @@ def preus():
     for carrer, ll_casa, ll_hotel, cmp_trrrny, cmp_casa, cmp_hotel in datos:
         print(f"| {carrer:<13} | {ll_casa:<9} | {ll_hotel:<10} | {cmp_trrrny:<11} | {cmp_casa:<10} | {cmp_hotel:<11} |")
 
+def mostrar_valor_venta_propiedades(jugador):
+    total_valor_venta = 0
+
+    # Iterar sobre las propiedades del jugador
+    for propiedad in jugadors[jugador]["Propietats"]:
+        # Obtener el precio de compra de la propiedad
+        precio_compra = propiedades()[propiedad]["Preu"]
+
+        # Calcular el valor de venta al 50%
+        valor_venta = precio_compra * 0.5
+
+        # Sumar el valor de venta total
+        total_valor_venta += valor_venta
+
+    # Mostrar el resultado en el espacio de información
+    print(f"{jugador} podría ganar un total de {total_valor_venta} si vende todas sus propiedades al banco.")
+
+def mostrar_valor_venta_a_jugador(jugador):
+        precio_compra = propiedades()[propiedad]["Preu"]
+        valor_venta = precio_compra * 0.9
+        print(f"Si vende todas sus propiedades a otro jugador, {jugador} ganará {valor_venta}.")
+
+def vender_todas_propiedades_al_banco(jugador):
+    total_valor_venta = 0
+
+    for propiedad in jugadors[jugador]["Propietats"]:
+        # Obtener el precio de compra de la propiedad
+        precio_compra = propiedades()[propiedad]["Preu"]
+
+        # Verificar si la propiedad tiene casas u hoteles y sumar el valor
+        casas = jugadors[jugador]["Propietats"][propiedad]["cases"]
+        hotels = jugadors[jugador]["Propietats"][propiedad]["hotels"]
+        
+        # Calcular el costo adicional de las casas y hoteles
+        valor_casas = casas * propiedades()[propiedad]["Preu casa"] * 0.5
+        valor_hoteles = hotels * propiedades()[propiedad]["Preu hotel"] * 0.5
+        
+        # Calcular el valor de venta de la propiedad (50% del precio original)
+        valor_venta_propiedad = precio_compra * 0.5
+        total_valor_venta += valor_venta_propiedad + valor_casas + valor_hoteles
+
+        # Liberar la propiedad, restableciéndola como disponible
+        propiedades()[propiedad]["propietari"] = None  # Liberar propiedad
+        propiedades()[propiedad]["Num. Cases"] = 0  # Quitar casas
+        propiedades()[propiedad]["Num. Hoteles"] = 0  # Quitar hoteles
+
+    # Añadir el total de la venta al dinero del jugador
+    jugadors[jugador]["diners"] += total_valor_venta
+
+    # Limpiar las propiedades del jugador
+    jugadors[jugador]["Propietats"] = {}
+
+    # Mostrar el resultado en el espacio de información
+    print(f"{jugador} ha vendido todas sus propiedades al banco por un total de {total_valor_venta}. Todas las propiedades están ahora disponibles para la compra.")
 
 def menu_opcions(jugador_actual, jugador, propiedad):
     print(f"\nTurno de {jugador_actual}")
@@ -585,11 +655,13 @@ def menu_opcions(jugador_actual, jugador, propiedad):
         preus()
 
     elif opcion == 'preu banc':
-        pass
+        mostrar_valor_venta_propiedades(jugador)
+
     elif opcion == 'preu jugador':
-        pass
+        mostrar_valor_venta_a_jugador(jugador)
+
     elif opcion == 'vendre al banc':
-        pass
+        vender_todas_propiedades_al_banco(jugador)
     elif opcion == 'vendre a b':
         pass
     elif opcion == 'Vendre a t' or opcion == 'vendre a g' or opcion == 'vendre a v':
