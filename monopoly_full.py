@@ -484,22 +484,41 @@ def siguiente_jugador():
         turno_actual = 0  # Vuelve al primer jugador cuando llegues al final
     return turno_jugadores[turno_actual]
 
-def comprar_propiedad(jugador, propiedad):
-    propiedades_dict = propiedades()
-    if propiedad not in propiedades_dict:
-        print(f"La propiedad {propiedad} no existe.")
+def comprar_terreno(jugador, dic_carrers):
+    # Obtener la posición actual del jugador
+    posicion_actual = jugadors[jugador]["posicio"]
+    
+    # Buscar la propiedad correspondiente a la posición actual
+    propiedad_a_comprar = None
+    for propiedad, detalles in dic_carrers.items():
+        if detalles["posicio"] == posicion_actual:
+            propiedad_a_comprar = propiedad
+            break
+    
+    # Si no se encuentra la propiedad en esa posición, no hay nada que comprar
+    if propiedad_a_comprar is None:
+        print(f"{jugador} no está en una posición válida para comprar un terreno.")
         return
     
-    precio_terreno = propiedades_dict[propiedad]["CMP_Trrny"]
+    # Verificar si la propiedad ya está en posesión de otro jugador
+    for otro_jugador, info in jugadors.items():
+        if propiedad_a_comprar in info["Propietats"]:
+            print(f"La propiedad {propiedad_a_comprar} ya pertenece a {otro_jugador}. No se puede comprar.")
+            return
     
-    # Verificar si el jugador tiene suficiente dinero para comprar la propiedad
+    # Obtener el precio del terreno
+    propiedades_dict = propiedades()  # Llama a la función que tiene los precios de las propiedades
+    precio_terreno = propiedades_dict[propiedad_a_comprar]["CMP_Trrny"]
+    
+    # Verificar si el jugador tiene suficiente dinero
     if jugadors[jugador]["diners"] >= precio_terreno:
         # Realizar la compra
         jugadors[jugador]["diners"] -= precio_terreno
-        jugadors[jugador]["Propietats"].append(propiedad)
-        print(f"{jugador} ha comprado la propiedad {propiedad} por {precio_terreno}€. Dinero restante: {jugadors[jugador]['diners']}€")
+        jugadors[jugador]["Propietats"].append(propiedad_a_comprar)
+        print(f"{jugador} ha comprado la propiedad {propiedad_a_comprar} por {precio_terreno}€. Dinero restante: {jugadors[jugador]['diners']}€")
     else:
-        print(f"{jugador} no tiene suficiente dinero para comprar la propiedad {propiedad}. Le faltan {precio_terreno - jugadors[jugador]['diners']}€.")
+        # Si no tiene suficiente dinero
+        print(f"{jugador} no tiene suficiente dinero para comprar la propiedad {propiedad_a_comprar}. Le faltan {precio_terreno - jugadors[jugador]['diners']}€.")
 
 def comprar_casa(jugador, propiedad):
     propiedades_dict = propiedades()  # Diccionario de propiedades disponible en el juego
@@ -678,19 +697,17 @@ def vender_todas_propiedades_a_jugador(jugador_vendedor, jugador_comprador):
     # Mostrar el resultado en el espacio de información
     print(f"{jugador_vendedor} ha vendido todas sus propiedades a {jugador_comprador} por un total de {total_valor_venta}.")
 
-def menu_opcions(jugador_actual, jugador, propiedad):
-    print(f"\nTurno de {jugador_actual}")
-    print("""
-    Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc, preu jugador, vendre al banc, vendre a B, vendre a (T,G o V)
-    """)
-    opcion = input("Opcion: ").lower()
+def menu_opcions(jugador_actual, jugador, jugadors, dic_carrers):
+    print(f"""\nJuega '{jugador_actual}', Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc, preu jugador, vendre al banc, vendre a B, vendre a (T,G o V)""")
+
+    opcion = input("Escoge una opcion del listado: ").lower()
     
     if opcion == 'passar':
         next_player = siguiente_jugador()
         return next_player
 
     elif opcion == 'comprar terreny':
-        comprar_propiedad(jugador, propiedad)
+        comprar_terreno(jugador, jugadors, dic_carrers)
 
     elif opcion == 'comprar casa':
         comprar_casa(jugador, propiedad)
@@ -709,14 +726,17 @@ def menu_opcions(jugador_actual, jugador, propiedad):
 
     elif opcion == 'vendre al banc':
         vender_todas_propiedades_al_banco(jugador)
+
     elif opcion == 'vendre a b' or opcion == 'Vendre a t' or opcion == 'vendre a g' or opcion == 'vendre a v':
         vender_todas_propiedades_a_jugador()
+
     elif opcion == 'trucs':
         menu_trucs()
+
     else:
         print("Error! No existe esta opcion!")
     
-def menu_trucs(jugador):
+def menu_trucs():
     print("""
     <============== Trucs ==============>"
     1.Anar a 'Nom de la casella o carrer'
@@ -747,7 +767,7 @@ def menu_trucs(jugador):
 taulellDibuixar()
 
 jugador_actual = turno_jugadores[turno_actual]
-jugador_actual = menu_opcions(jugador_actual, jugadors, propiedad)
+jugador_actual = menu_opcions(jugador_actual, jugador, jugadors, propiedad)
 print(jugador_actual)
 
 asignar_especial(jugadors)
