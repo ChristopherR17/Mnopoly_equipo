@@ -320,131 +320,135 @@ def propiedades():
             "LL_Hotel": 15,
             "CMP_Trrny": 50,
             "CMP_Casa": 200,
-            "CMP_Hotel": 250
+            "CMP_Hotel": 250,
+            'Num. Cases': 0
         },
         "Rosselló": {
             "LL_Casa": 10,
             "LL_Hotel": 15,
             "CMP_Trrny": 50,
             "CMP_Casa": 225,
-            "CMP_Hotel": 255
+            "CMP_Hotel": 255,
+            'Num. Cases': 0
         },
         "Marina": {
             "LL_Casa": 15,
             "LL_Hotel": 15,
             "CMP_Trrny": 50,
             "CMP_Casa": 250,
-            "CMP_Hotel": 260
+            "CMP_Hotel": 260,
+            'Num. Cases': 0
         },
         "C. de cent": {
             "LL_Casa": 15,
             "LL_Hotel": 20,
             "CMP_Trrny": 50,
             "CMP_Casa": 275,
-            "CMP_Hotel": 265
+            "CMP_Hotel": 265,
+            'Num. Cases': 0
         },
         "Muntaner": {
             "LL_Casa": 20,
             "LL_Hotel": 20,
             "CMP_Trrny": 60,
             "CMP_Casa": 300,
-            "CMP_Hotel": 270
+            "CMP_Hotel": 270,
+            'Num. Cases': 0
         },
         "Aribau": {
             "LL_Casa": 20,
             "LL_Hotel": 20,
             "CMP_Trrny": 60,
             "CMP_Casa": 325,
-            "CMP_Hotel": 275
+            "CMP_Hotel": 275,
+            'Num. Cases': 0
         },
         "Sant Joan": {
             "LL_Casa": 25,
             "LL_Hotel": 25,
             "CMP_Trrny": 60,
             "CMP_Casa": 350,
-            "CMP_Hotel": 280
+            "CMP_Hotel": 280,
+            'Num. Cases': 0
         },
         "Aragó": {
             "LL_Casa": 25,
             "LL_Hotel": 25,
             "CMP_Trrny": 60,
             "CMP_Casa": 375,
-            "CMP_Hotel": 285
+            "CMP_Hotel": 285,
+            'Num. Cases': 0
         },
         "Urquinaona": {
             "LL_Casa": 30,
             "LL_Hotel": 25,
             "CMP_Trrny": 70,
             "CMP_Casa": 400,
-            "CMP_Hotel": 290
+            "CMP_Hotel": 290,
+            'Num. Cases': 0
         },
         "Fontana": {
             "LL_Casa": 30,
             "LL_Hotel": 30,
             "CMP_Trrny": 70,
             "CMP_Casa": 425,
-            "CMP_Hotel": 300
+            "CMP_Hotel": 300,
+            'Num. Cases': 0
         },
         "Les Rambles": {
             "LL_Casa": 35,
             "LL_Hotel": 30,
             "CMP_Trrny": 70,
             "CMP_Casa": 450,
-            "CMP_Hotel": 310
+            "CMP_Hotel": 310,
+            'Num. Cases': 0
         },
         "Pl. Catalunya": {
             "LL_Casa": 35,
             "LL_Hotel": 30,
             "CMP_Trrny": 70,
             "CMP_Casa": 475,
-            "CMP_Hotel": 320
+            "CMP_Hotel": 320,
+            'Num. Cases': 0
         },
         "P. Àngel": {
             "LL_Casa": 40,
             "LL_Hotel": 35,
             "CMP_Trrny": 80,
             "CMP_Casa": 500,
-            "CMP_Hotel": 330
+            "CMP_Hotel": 330,
+            'Num. Cases': 0
         },
         "Via Augusta": {
             "LL_Casa": 40,
             "LL_Hotel": 35,
             "CMP_Trrny": 80,
             "CMP_Casa": 525,
-            "CMP_Hotel": 340
+            "CMP_Hotel": 340,
+            'Num. Cases': 0
         },
         "Balmes": {
             "LL_Casa": 50,
             "LL_Hotel": 40,
             "CMP_Trrny": 80,
             "CMP_Casa": 550,
-            "CMP_Hotel": 350
+            "CMP_Hotel": 350,
+            'Num. Cases': 0
         },
         "Pg. de Gràcia": {
             "LL_Casa": 50,
             "LL_Hotel": 50,
             "CMP_Trrny": 80,
             "CMP_Casa": 525,
-            "CMP_Hotel": 360
+            "CMP_Hotel": 360,
+            'Num. Cases': 0
         }
     }
     
     return propiedad
 
-def comprar_propiedad(jugador, CMP_Trrny, propiedades):
-    if propiedades[CMP_Trrny]['propietario'] is None:  # Si el terreno no tiene propietario
-        if jugador['dinero'] >= propiedades[CMP_Trrny]['precio']:  # Si el jugador tiene suficiente dinero
-            # Descontar el precio del terreno del dinero del jugador
-            jugador['dinero'] -= propiedades[CMP_Trrny]['precio']
-            # Asignar la propiedad al jugador
-            jugador['propiedades'].append(CMP_Trrny)
-            # Actualizar el propietario en el diccionario de propiedades
-            propiedades[CMP_Trrny]['propietario'] = jugador['nombre']
-            print(f"¡{jugador['nombre']} ha comprado {propiedades[CMP_Trrny]['nombre']}!")
-        else:
-            print(f"{jugador['nombre']} no tiene suficiente dinero para comprar {propiedades[CMP_Trrny]['nombre']}.")
-    else:
-        print(f"{propiedades[CMP_Trrny]['nombre']} ya está comprado por {propiedades[CMP_Trrny]['propietario']}.")
+#Global de propiedades
+propiedad = propiedades()
 
 # Lista global de jugadores en orden aleatorio
 turno_jugadores = orden_tirada()
@@ -460,6 +464,72 @@ def siguiente_jugador():
         print(turno_jugadores)
         turno_actual = 0  # Vuelve al primer jugador cuando llegues al final
     return turno_jugadores[turno_actual]
+
+def comprar_propiedad(jugador, propiedad):
+    propiedades_dict = propiedades()  # Diccionario de propiedades disponible en el juego
+    if propiedad not in propiedades_dict:
+        print(f"La propiedad {propiedad} no existe.")
+        return
+    
+    precio_terreno = propiedades_dict[propiedad]["CMP_Trrny"]
+    
+    # Verificar si el jugador tiene suficiente dinero para comprar la propiedad
+    if jugadors[jugador]["diners"] >= precio_terreno:
+        # Realizar la compra
+        jugadors[jugador]["diners"] -= precio_terreno
+        jugadors[jugador]["Propietats"].append(propiedad)
+        print(f"{jugador} ha comprado la propiedad {propiedad} por {precio_terreno}€. Dinero restante: {jugadors[jugador]['diners']}€")
+    else:
+        print(f"{jugador} no tiene suficiente dinero para comprar la propiedad {propiedad}. Le faltan {precio_terreno - jugadors[jugador]['diners']}€.")
+
+def comprar_casa(jugador, propiedad):
+    propiedades_dict = propiedades()  # Diccionario de propiedades disponible en el juego
+
+    # Verificar si el jugador posee la propiedad
+    if propiedad not in jugadors[jugador]["Propietats"]:
+        print(f"{jugador} no posee {propiedad}, no puede comprar casas.")
+        return
+    
+    # Obtener el precio de una casa en la propiedad
+    precio_casa = propiedades()[propiedad]["CMP_Casa"]
+
+    # Verificar si el jugador tiene suficiente dinero
+    if jugadors[jugador]["diners"] >= precio_casa:
+        # Verificar si ya tiene el máximo de casas permitido (4 casas)
+        if propiedades_dict[propiedad]['Num. Cases'] < 4:
+            # Comprar una casa
+            jugadors[jugador]["diners"] -= precio_casa
+            propiedades_dict[propiedad]['Num. Cases'] += 1
+            print(f"{jugador} ha comprado una casa en {propiedad}. Ahora tiene {propiedades_dict[propiedad]['Num. Cases']} casas.")
+        else:
+            print(f"{jugador} ya tiene 4 casas en {propiedad}. Debe comprar un hotel antes de seguir.")
+    else:
+        print(f"{jugador} no tiene suficiente dinero para comprar una casa en {propiedad}.")
+
+def comprar_hotel(jugador, propiedad):
+    propiedades_dict = propiedades()  # Diccionario de propiedades disponible en el juego
+
+    # Verificar si el jugador posee la propiedad
+    if propiedad not in jugadors[jugador]["Propietats"]:
+        print(f"{jugador} no posee {propiedad}, no puede comprar un hotel.")
+        return
+    
+    # Obtener el precio de un hotel en la propiedad
+    precio_hotel = propiedades()[propiedad]["CMP_Hotel"]
+
+    # Verificar si el jugador tiene 4 casas en la propiedad
+    if propiedades_dict[propiedad]['Num. Cases'] == 4:
+        # Verificar si el jugador tiene suficiente dinero
+        if jugadors[jugador]["diners"] >= precio_hotel:
+            # Comprar el hotel
+            jugadors[jugador]["diners"] -= precio_hotel
+            propiedades_dict[propiedad]['Num. Hoteles'] += 1
+            propiedades_dict[propiedad]['Num. Cases'] = 0  # Se eliminan las casas al comprar un hotel
+            print(f"{jugador} ha comprado un hotel en {propiedad}.")
+        else:
+            print(f"{jugador} no tiene suficiente dinero para comprar un hotel en {propiedad}.")
+    else:
+        print(f"{jugador} necesita tener 4 casas en {propiedad} antes de poder comprar un hotel.")
 
 def preus():
     # Datos de las calles
@@ -491,7 +561,7 @@ def preus():
         print(f"| {carrer:<13} | {ll_casa:<9} | {ll_hotel:<10} | {cmp_trrrny:<11} | {cmp_casa:<10} | {cmp_hotel:<11} |")
 
 
-def menu_opcions(jugador_actual):
+def menu_opcions(jugador_actual, jugador, propiedad):
     print(f"\nTurno de {jugador_actual}")
     print("""
     Opcions: passar, comprar terreny, comprar casa, comprar hotel, preus, preu banc, preu jugador, vendre al banc, vendre a B, vendre a (T,G o V)
@@ -501,27 +571,19 @@ def menu_opcions(jugador_actual):
     if opcion == 'passar':
         siguiente_jugador = siguiente_jugador()
         print(siguiente_jugador)
-        
+
     elif opcion == 'comprar terreny':
-        # Opción para comprar terreno
-        print("Terrenos disponibles para la compra:")
-        for terreno, info in propiedades.items():
-            if info['propietario'] is None:
-                print(f"{terreno}: {info['nombre']} - Precio: {info['precio']}")
-        
-        terreno_seleccionado = input("Elige el terreno que deseas comprar (ej: terreno1): ")
-        
-        if terreno_seleccionado in propiedades:
-            comprar_propiedad(jugador_actual, terreno_seleccionado, propiedades)
-        else:
-            print("Terreno no válido.")
+        comprar_propiedad(jugador, propiedad)
 
     elif opcion == 'comprar casa':
-        pass
+        comprar_casa(jugador, propiedad)
+
     elif opcion == 'comprar hotel':
-        pass
+        comprar_hotel(jugador, propiedad)
+
     elif opcion == 'preus':
         preus()
+
     elif opcion == 'preu banc':
         pass
     elif opcion == 'preu jugador':
@@ -552,7 +614,7 @@ def menu_trucs():
 taulellDibuixar()
 
 jugador_actual = turno_jugadores[turno_actual]
-menu_opcions(jugador_actual)
+menu_opcions(jugador_actual, jugadors, propiedad)
 print(jugador_actual)
 
 asignar_especial(jugadors)
