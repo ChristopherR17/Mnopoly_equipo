@@ -61,10 +61,13 @@ jugadors = {
         }
     }
 
+dic_carrers = {}
+
 def taulellDibuixar():
     t = []
     casa = []
     hotel = []
+    global dic_carrers
 
     dic_carrers = {
         'Sortida': {'Num. Cases': 0, 'Num. Hoteles': 0, 'posicio': 0},
