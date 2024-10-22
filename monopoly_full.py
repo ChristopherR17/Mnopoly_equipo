@@ -618,7 +618,6 @@ def vender_todas_propiedades_al_banco(jugador):
         total_valor_venta += valor_venta_propiedad + valor_casas + valor_hoteles
 
         # Liberar la propiedad, restableciéndola como disponible
-        propiedades()[propiedad]["propietari"] = None  # Liberar propiedad
         propiedades()[propiedad]["Num. Cases"] = 0  # Quitar casas
         propiedades()[propiedad]["Num. Hoteles"] = 0  # Quitar hoteles
 
@@ -630,6 +629,51 @@ def vender_todas_propiedades_al_banco(jugador):
 
     # Mostrar el resultado en el espacio de información
     print(f"{jugador} ha vendido todas sus propiedades al banco por un total de {total_valor_venta}. Todas las propiedades están ahora disponibles para la compra.")
+
+def vender_todas_propiedades_a_jugador(jugador_vendedor, jugador_comprador):
+    total_valor_venta = 0
+
+    # Asegurarse de que el jugador comprador sea válido
+    if jugador_comprador not in ['b', 't', 'g', 'v']:
+        print(f"Error: El jugador {jugador_comprador} no es válido.")
+        return
+
+    # Iterar sobre las propiedades del jugador vendedor
+    for propiedad in jugadors[jugador_vendedor]["Propietats"]:
+        # Obtener el precio de compra de la propiedad
+        precio_compra = propiedades()[propiedad]["Preu"]
+
+        # Verificar cuántas casas y hoteles tiene la propiedad
+        casas = jugadors[jugador_vendedor]["Propietats"][propiedad]["cases"]
+        hoteles = jugadors[jugador_vendedor]["Propietats"][propiedad]["hotels"]
+
+        # Calcular el valor de las casas y hoteles
+        valor_casas = casas * propiedades()[propiedad]["Preu casa"] * 0.9
+        valor_hoteles = hoteles * propiedades()[propiedad]["Preu hotel"] * 0.9
+
+        # Calcular el valor de venta de la propiedad (90% del precio original)
+        valor_venta_propiedad = precio_compra * 0.9
+        total_valor_venta += valor_venta_propiedad + valor_casas + valor_hoteles
+
+        # Transferir la propiedad al comprador
+        jugadors[jugador_comprador]["Propietats"][propiedad] = jugadors[jugador_vendedor]["Propietats"][propiedad]
+        propiedades()[propiedad]["propietari"] = jugador_comprador
+
+        # Imprimir detalles de la transacción de cada propiedad
+        print(f"Propiedad: {propiedad} vendida a {jugador_comprador}")
+        print(f"Valor casas (90%): {valor_casas}")
+        print(f"Valor hoteles (90%): {valor_hoteles}")
+        print(f"Valor total de la venta de esta propiedad: {valor_venta_propiedad + valor_casas + valor_hoteles}")
+        print("---")
+
+    # Añadir el dinero de la venta al vendedor
+    jugadors[jugador_vendedor]["diners"] += total_valor_venta
+
+    # Limpiar las propiedades del vendedor
+    jugadors[jugador_vendedor]["Propietats"] = {}
+
+    # Mostrar el resultado en el espacio de información
+    print(f"{jugador_vendedor} ha vendido todas sus propiedades a {jugador_comprador} por un total de {total_valor_venta}.")
 
 def menu_opcions(jugador_actual, jugador, propiedad):
     print(f"\nTurno de {jugador_actual}")
@@ -662,16 +706,14 @@ def menu_opcions(jugador_actual, jugador, propiedad):
 
     elif opcion == 'vendre al banc':
         vender_todas_propiedades_al_banco(jugador)
-    elif opcion == 'vendre a b':
-        pass
-    elif opcion == 'Vendre a t' or opcion == 'vendre a g' or opcion == 'vendre a v':
-        pass
+    elif opcion == 'vendre a b' or opcion == 'Vendre a t' or opcion == 'vendre a g' or opcion == 'vendre a v':
+        vender_todas_propiedades_a_jugador()
     elif opcion == 'trucs':
         menu_trucs()
     else:
         print("Error! No existe esta opcion!")
     
-def menu_trucs():
+def menu_trucs(jugador):
     print("""
     <============== Trucs ==============>"
     1.Anar a 'Nom de la casella o carrer'
@@ -681,6 +723,10 @@ def menu_trucs():
     5.diners X YY (on X és el jugador i YY els diners que tindrà disponibles)
     6.diners X banca (on X són els diners que tindrà la banca)
     """)
+    opcion = int(input("Elige la opcion introduciendo el numero: "))
+
+    if opcion == 1:
+        jugadors[jugador]["posicio"] == 1
 
 
 taulellDibuixar()
